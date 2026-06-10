@@ -1,0 +1,540 @@
+
+raw
+Index · HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peaceful Cabin Retreat – Pioneer, CA</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --forest:   #2c3a2e;
+      --bark:     #5a4232;
+      --cream:    #f7f3ed;
+      --warm:     #e8ddd0;
+      --gold:     #c8922a;
+      --text:     #1e1e1e;
+      --muted:    #5e5e5e;
+    }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+ 
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: rgba(44, 58, 46, 0.92);
+      backdrop-filter: blur(6px);
+    }
+ 
+    nav .brand {
+      color: #fff;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+ 
+    nav .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-left: 22px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+ 
+    nav .nav-links a:hover { opacity: 1; }
+ 
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 500px;
+      overflow: hidden;
+    }
+ 
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+ 
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.05) 40%,
+        rgba(0,0,0,0.55) 100%);
+    }
+ 
+    .hero-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 40px 28px 48px;
+      color: #fff;
+    }
+ 
+    .hero-content .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.82;
+      margin-bottom: 10px;
+    }
+ 
+    .hero-content h1 {
+      font-size: clamp(2rem, 8vw, 3.6rem);
+      font-weight: normal;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+ 
+    .hero-content .specs {
+      font-size: 0.88rem;
+      opacity: 0.9;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+ 
+    .hero-content .price {
+      display: inline-block;
+      font-size: 1.5rem;
+      color: #f5d48a;
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+ 
+    .hero-cta {
+      display: inline-block;
+      padding: 13px 32px;
+      background: var(--gold);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+ 
+    .hero-cta:hover { background: #a97520; }
+ 
+    /* ── SECTIONS ── */
+    section { padding: 60px 24px; max-width: 960px; margin: 0 auto; }
+ 
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bark);
+      margin-bottom: 28px;
+    }
+ 
+    /* ── GALLERY ── */
+    #gallery { max-width: 100%; padding: 60px 16px; }
+ 
+    #gallery .section-label { padding: 0 8px; max-width: 960px; margin: 0 auto 28px; }
+ 
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+ 
+    @media (min-width: 600px) {
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+ 
+    @media (min-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+ 
+    .gallery-item {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      background: var(--warm);
+    }
+ 
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+ 
+    .gallery-item:hover img { transform: scale(1.05); }
+ 
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      transition: background 0.2s;
+    }
+ 
+    .gallery-item:hover::after { background: rgba(0,0,0,0.12); }
+ 
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.94);
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+    }
+ 
+    #lightbox.open { display: flex; }
+ 
+    #lightbox img {
+      max-width: 92vw;
+      max-height: 88svh;
+      object-fit: contain;
+      display: block;
+      border-radius: 2px;
+      user-select: none;
+    }
+ 
+    .lb-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+      width: 48px;
+      height: 64px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+ 
+    .lb-btn:hover { background: rgba(255,255,255,0.25); }
+    #lb-prev { left: 10px; }
+    #lb-next { right: 10px; }
+ 
+    #lb-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      width: 44px; height: 44px;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+ 
+    #lb-close:hover { background: rgba(255,255,255,0.28); }
+ 
+    #lb-counter {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+ 
+    /* ── INFO ── */
+    #info { border-top: 1px solid var(--warm); }
+ 
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 24px;
+      margin-bottom: 32px;
+    }
+ 
+    @media (min-width: 600px) {
+      .info-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+ 
+    .info-tile {
+      background: #fff;
+      border: 1px solid var(--warm);
+      padding: 18px 16px;
+      border-radius: 2px;
+      text-align: center;
+    }
+ 
+    .info-tile .icon { font-size: 1.5rem; margin-bottom: 6px; }
+ 
+    .info-tile .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+ 
+    .info-desc {
+      font-size: 0.96rem;
+      line-height: 1.78;
+      color: var(--muted);
+      max-width: 640px;
+    }
+ 
+    .private-badge {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 14px;
+      background: var(--forest);
+      color: #fff;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+ 
+    /* ── CONTACT ── */
+    #contact { border-top: 1px solid var(--warm); }
+ 
+    .contact-card {
+      background: var(--forest);
+      color: #fff;
+      padding: 40px 28px;
+      border-radius: 4px;
+      max-width: 520px;
+    }
+ 
+    .contact-card h2 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+ 
+    .contact-card p {
+      font-size: 0.9rem;
+      opacity: 0.82;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+ 
+    .contact-card a {
+      display: inline-block;
+      color: #f5d48a;
+      text-decoration: none;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(245,212,138,0.4);
+      padding-bottom: 2px;
+    }
+ 
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.76rem;
+      color: var(--muted);
+      border-top: 1px solid var(--warm);
+    }
+ 
+    /* ── SWIPE SUPPORT (touch) ── */
+  </style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <span class="brand">Peaceful Cabin Retreat</span>
+  <div class="nav-links">
+    <a href="#gallery">Gallery</a>
+    <a href="#info">Info</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero" id="home">
+  <!-- Place your hero image in the /hero/ folder and name it hero.jpg (or .png) -->
+  <img src="hero/hero.jpg" alt="Peaceful Cabin Retreat – Pioneer, CA" />
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">27485 Inspiration Drive · Pioneer, CA</p>
+    <h1>Peaceful Cabin<br>Retreat</h1>
+    <div class="specs">
+      1,505 sqft &nbsp;·&nbsp; 1.01 Acres of Land<br>
+      1 Living Room &nbsp;·&nbsp; 2 Bedrooms &nbsp;·&nbsp; 1.5 Bathrooms
+    </div>
+    <div class="price">$429,000</div><br>
+    <a href="#contact" class="hero-cta">Request Private Showing</a>
+  </div>
+</section>
+ 
+<!-- GALLERY -->
+<section id="gallery">
+  <p class="section-label">Gallery</p>
+  <div class="gallery-grid" id="galleryGrid">
+    <!--
+      Add your gallery images to the /gallery/ folder.
+      Name them: 01.jpg, 02.jpg, 03.jpg ... or any name.
+      Then list them here like:
+        <div class="gallery-item" onclick="openLightbox(0)">
+          <img src="gallery/01.jpg" alt="Cabin photo 1" loading="lazy" />
+        </div>
+      The number in openLightbox(N) is the position starting at 0.
+    -->
+    <div class="gallery-item" onclick="openLightbox(0)"><img src="gallery/01.jpg" alt="Cabin photo 1" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(1)"><img src="gallery/02.jpg" alt="Cabin photo 2" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(2)"><img src="gallery/03.jpg" alt="Cabin photo 3" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(3)"><img src="gallery/04.jpg" alt="Cabin photo 4" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(4)"><img src="gallery/05.jpg" alt="Cabin photo 5" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(5)"><img src="gallery/06.jpg" alt="Cabin photo 6" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(6)"><img src="gallery/07.jpg" alt="Cabin photo 7" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(7)"><img src="gallery/08.jpg" alt="Cabin photo 8" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(8)"><img src="gallery/09.jpg" alt="Cabin photo 9" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(9)"><img src="gallery/10.jpg" alt="Cabin photo 10" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(10)"><img src="gallery/11.jpg" alt="Cabin photo 11" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(11)"><img src="gallery/12.jpg" alt="Cabin photo 12" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(12)"><img src="gallery/13.jpg" alt="Cabin photo 13" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(13)"><img src="gallery/14.jpg" alt="Cabin photo 14" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(14)"><img src="gallery/15.jpg" alt="Cabin photo 15" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(15)"><img src="gallery/16.jpg" alt="Cabin photo 16" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(16)"><img src="gallery/17.jpg" alt="Cabin photo 17" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(17)"><img src="gallery/18.jpg" alt="Cabin photo 18" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(18)"><img src="gallery/19.jpg" alt="Cabin photo 19" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(19)"><img src="gallery/20.jpg" alt="Cabin photo 20" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(20)"><img src="gallery/21.jpg" alt="Cabin photo 21" loading="lazy" /></div>
+    <div class="gallery-item" onclick="openLightbox(21)"><img src="gallery/22.jpg" alt="Cabin photo 22" loading="lazy" /></div>
+  </div>
+</section>
+ 
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button id="lb-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+  <button class="lb-btn" id="lb-prev" onclick="shiftLightbox(-1)" aria-label="Previous">‹</button>
+  <img id="lb-img" src="" alt="Gallery photo" />
+  <button class="lb-btn" id="lb-next" onclick="shiftLightbox(1)" aria-label="Next">›</button>
+  <div id="lb-counter"></div>
+</div>
+ 
+<!-- INFO -->
+<section id="info">
+  <p class="section-label">Property Details</p>
+  <div class="info-grid">
+    <div class="info-tile"><div class="icon">🛋️</div><div class="label">Living Room</div></div>
+    <div class="info-tile"><div class="icon">🛏️</div><div class="label">2 Bedrooms</div></div>
+    <div class="info-tile"><div class="icon">🚿</div><div class="label">1.5 Bathrooms</div></div>
+    <div class="info-tile"><div class="icon">🌲</div><div class="label">1 Acre of Land</div></div>
+  </div>
+  <p class="info-desc">
+    This property is currently being offered privately and has not yet been listed on the open market.
+    We're sharing it with a limited group of prospective buyers who are looking for a peaceful weekend retreat,
+    vacation home, or long-term mountain getaway.
+    <br><br>
+    If you're interested in learning more, simply reach out through the contact form below.
+    Qualified buyers will be invited to schedule a private tour and experience the property in person.
+    This is a unique opportunity to explore ownership before the home becomes publicly available.
+  </p>
+  <span class="private-badge">Private Listing — Not on MLS</span>
+</section>
+ 
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in Touch</p>
+  <div class="contact-card">
+    <h2>Schedule a Private Showing</h2>
+    <p>
+      Reach out directly to inquire about the property or arrange a tour.
+      We'll respond promptly to qualified buyers.
+    </p>
+    <a href="mailto:pioneer.cabin.ca@gmail.com">pioneer.cabin.ca@gmail.com</a>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  27485 Inspiration Drive, Pioneer, CA &nbsp;·&nbsp; $429,000 &nbsp;·&nbsp; Private Listing
+</footer>
+ 
+<script>
+  // ── Collect all gallery images ──
+  const items = document.querySelectorAll('.gallery-item img');
+  const srcs  = Array.from(items).map(i => i.src);
+  let current = 0;
+ 
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lb-img');
+  const lbCount = document.getElementById('lb-counter');
+ 
+  function openLightbox(index) {
+    current = index;
+    lbImg.src = srcs[current];
+    lbCount.textContent = (current + 1) + ' / ' + srcs.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+ 
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+ 
+  function shiftLightbox(dir) {
+    current = (current + dir + srcs.length) % srcs.length;
+    lbImg.src = srcs[current];
+    lbCount.textContent = (current + 1) + ' / ' + srcs.length;
+  }
+ 
+  // Close on backdrop click
+  lb.addEventListener('click', function(e) {
+    if (e.target === lb) closeLightbox();
+  });
+ 
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  shiftLightbox(-1);
+    if (e.key === 'ArrowRight') shiftLightbox(1);
+    if (e.key === 'Escape')     closeLightbox();
+  });
+ 
+  // Touch swipe support
+  let touchStartX = 0;
+  lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) shiftLightbox(dx < 0 ? 1 : -1);
+  });
+</script>
+</body>
+</html>
